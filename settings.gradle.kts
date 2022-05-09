@@ -1,0 +1,1 @@
+rootProject.name = "ru.mipt.npm.ktor-sample"
