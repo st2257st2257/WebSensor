@@ -1,16 +1,16 @@
 package ru.mipt.npm.plugins
 
-import io.ktor.server.html.*
-import kotlinx.html.*
 import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.request.*
+import io.ktor.server.html.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.html.*
 import ru.mipt.npm.cmdREAD
 import ru.mipt.npm.cmdSHUTDOWN
 
-fun Application.configureTemplating() {
 
+@OptIn(ExperimentalCoroutinesApi::class)
+fun Application.configureTemplating() {
     routing {
         get("/html-dsl") {
             call.respondHtml {
@@ -21,6 +21,7 @@ fun Application.configureTemplating() {
                             li { +"$n" }
                         }
                     }
+
                 }
             }
         }
@@ -33,13 +34,29 @@ fun Application.configureTemplating() {
                     body {
                         h1 { +"HTML" }
                         h2 { +"VALEU" }
-                        h3 { +"$str" }
+                        h3 { +str }
+                        h6 { +"ddd"}
+                        button ( type = ButtonType.button ){
+                            text("hhh")
+                            //onClick = "alert('Hello');"
+                        }
+                        div {
+                            img {
+                                src = "https://placekitten.com/408/287"
+                            }
+                        }
+                        script {
+                            //script(src = "C:\\MIPT\\PROG\\Kotlin\\HW\\js.js") {}
+                        }
+                        script{
+                            unsafe{ +"""window.setInterval('window.location.reload()', 1000);"""}
+                        }
                     }
                 }
             }
         }
         get("/html-shutdown") {
-            val strings = cmdSHUTDOWN()
+            cmdSHUTDOWN()
             call.respondHtml {
                 body {
                             h1 { +"HTML" }

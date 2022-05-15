@@ -1,20 +1,20 @@
 package ru.mipt.npm.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
+import io.ktor.server.routing.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.mipt.npm.cmdREAD
 import ru.mipt.npm.cmdSHUTDOWN
 
+@OptIn(ExperimentalCoroutinesApi::class)
 fun Application.configureRouting() {
 
     routing {
         get("/") {
             call.respondText("Hello World!")
         }
-        get("/console/read") {
+        get("/READ") {
             val strings = cmdREAD()
             strings.await()
             if( strings.getCompleted().isNotEmpty() ) {

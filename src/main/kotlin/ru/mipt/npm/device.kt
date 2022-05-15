@@ -4,10 +4,6 @@ import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.*
 import ru.mipt.npm.plugins.EchoApp
-import java.io.InputStream
-import java.util.*
-
-
 
 
 fun cmdREAD() = CoroutineScope(Dispatchers.Default).async {
@@ -15,12 +11,13 @@ fun cmdREAD() = CoroutineScope(Dispatchers.Default).async {
     runBlocking {
 
         launch(Dispatchers.IO) {
-
-            val socket = aSocket(EchoApp.selectorManager).tcp().connect("127.0.0.1", port = EchoApp.DefaultPort)
+            val ipLocal = "192.168.1.69"
+            val ipGlobal = "46.138.245.249"
+            val socket = aSocket(EchoApp.selectorManager).tcp().connect(ipGlobal, port = EchoApp.DefaultPort)
             val read = socket.openReadChannel()
             val write = socket.openWriteChannel(autoFlush = true)
 
-            val hellow = read.readUTF8Line()
+            read.readUTF8Line()
 //            println("server: $hellow")
             write.writeStringUtf8("READ\n")
             val line = read.readUTF8Line()
@@ -38,8 +35,8 @@ fun cmdREAD() = CoroutineScope(Dispatchers.Default).async {
 fun cmdSHUTDOWN() {
     runBlocking {
 
-        val socket = aSocket(EchoApp.selectorManager).tcp().connect("127.0.0.1", port = EchoApp.DefaultPort)
-        val read = socket.openReadChannel()
+        val socket = aSocket(EchoApp.selectorManager).tcp().connect("192.168.1.69", port = EchoApp.DefaultPort)
+        socket.openReadChannel()
         val write = socket.openWriteChannel(autoFlush = true)
 
         launch(Dispatchers.IO) {
